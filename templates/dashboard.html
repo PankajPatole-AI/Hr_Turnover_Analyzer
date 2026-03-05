@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% block title %}Dashboard for {{ result.upload_filename }}{% endblock %}
+
+{% block content %}
+<style>
+  /* --- Page & Navigation --- */
+  .dashboard-container {
+    animation: fadeInUp 1s ease forwards;
+    color: #f1f5f9;
+  }
+  
+  .back-link {
+    color: #38bdf8;
+    text-decoration: none;
+    font-weight: 500;
+    display: inline-block;
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+  }
+  .back-link:hover { text-decoration: underline; }
+
+  /* --- Dashboard Header --- */
+  .dashboard-header {
+    background: rgba(56, 189, 248, 0.1);
+    border: 1px solid #38bdf8;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 25px;
+    animation: fadeInUp 0.6s ease forwards;
+  }
+  .dashboard-header h1 { color: #f1f5f9; font-size: 1.8rem; margin: 0; }
+  .dashboard-header p { color: #cbd5e1; font-size: 1.1rem; margin: 5px 0 0 0; }
+
+  /* --- Dashboard Canvas (Full 16:9 Workspace, Bigger Layout Ready) --- */
+  .dashboard-canvas-container {
+    width: 100%;
+    aspect-ratio: 16 / 11; 
+    height: 1080;         /* or your height */
+    max-width: 2160px;
+    margin: 40px auto;
+    position: relative;
+    background: #1e293b;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    overflow: visible;    /* ← This is the fix */
+    animation: fadeInUp 0.8s ease forwards;
+}
+
+  /* --- Each Visualization Image (now supports larger widths/heights) --- */
+  .dashboard-image {
+    position: absolute;
+    object-fit: contain;
+    border-radius: 4px; /* optional */
+}
+
+
+  .no-images {
+    color: #94a3b8;
+    text-align: center;
+    margin-top: 20px;
+    font-style: italic;
+    font-size: 1.1rem;
+  }
+</style>
+
+<div class="dashboard-container">
+    <a href="{% url 'profile' %}" class="back-link">← Back to Profile & History</a>
+    
+    {% if visualizations %}
+      <div class="dashboard-header">
+        <h1>{{ result.upload_filename }}</h1>
+        <p>Analysis Date: {{ result.analysis_date|date:"Y-m-d H:i" }}</p>
+      </div>
+
+      <div class="dashboard-canvas-container">
+        
+        {% for viz in visualizations %}
+          <img 
+            class="dashboard-image" 
+            src="{{ viz.image.url }}" 
+            alt="{{ viz.alt_text }}"
+            style="
+              top: {{ viz.layout.y }}%;
+              left: {{ viz.layout.x }}%;
+              width: {{ viz.layout.w }}%;
+              height: {{ viz.layout.h }}%;
+            "
+          >
+        {% endfor %}
+        
+      </div>
+    {% else %}
+      <div class="dashboard-header">
+        <h1>{{ result.upload_filename }}</h1>
+        <p>Analysis Date: {{ result.analysis_date|date:"Y-m-d H:i" }}</p>
+      </div>
+      <p class="no-images">No visualizations were generated for this report.</p>
+    {% endif %}
+
+</div>
+{% endblock %}

@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+{% block title %}Profile & History - HR Churnover Analysis{% endblock %}
+
+{% block content %}
+<style>
+  /* ... (all your existing styles from .profile-container to .no-history) ... */
+
+  /* Keep all your original styles */
+  .profile-container {
+    animation: fadeInUp 1s ease forwards;
+    color: #f1f5f9;
+  }
+  
+  /* ... (all other existing styles) ... */
+
+  .no-history {
+    color: #94a3b8;
+    text-align: center;
+    margin-top: 20px;
+    font-style: italic;
+  }
+
+  /* --- ADD THESE NEW STYLES --- */
+  /* New Dashboard Grid Styles (Inline for the table) */
+  .dashboard-grid-inline {
+      display: grid;
+      /*
+        - 'auto-fit': Fit as many columns as possible.
+        - 'minmax(300px, 1fr)': Each column is AT LEAST 300px wide.
+          This will automatically stack to 1 column on smaller screens
+          and create 2, 3, or 4 columns if there's space.
+      */
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 15px; /* Space between chart cards */
+      margin-top: 10px;
+  }
+
+  .dashboard-item-inline {
+      background: rgba(255, 255, 255, 0.05); /* Slightly darker card */
+      border-radius: 12px;
+      padding: 15px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease;
+      align-self: start; /* Prevents stretching */
+  }
+
+  .dashboard-item-inline:hover {
+      transform: translateY(-3px);
+  }
+
+  .dashboard-item-inline img {
+      width: 100%;
+      height: auto; /* Maintain aspect ratio */
+      border-radius: 8px;
+      border: 1px solid #475569;
+  }
+  
+  .dashboard-item-inline h5 { /* A smaller heading for the inline card */
+      color: #e2e8f0;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-top: 0;
+      margin-bottom: 10px;
+      text-align: center;
+  }
+  /* --- END OF NEW STYLES --- */
+  .analysis-history-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    margin-top: 20px;
+}
+
+.analysis-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.analysis-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+}
+
+.analysis-card h3 {
+    color: #38bdf8;
+    margin-bottom: 8px;
+}
+
+.analysis-card p {
+    color: #cbd5e1;
+    margin-bottom: 15px;
+}
+
+.report-links {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.report-links h4 {
+    color: #e2e8f0;
+    margin-bottom: 8px;
+}
+
+</style>
+
+<div class="profile-container">
+    <h1>Welcome, {{ user.username }}</h1>
+
+    <h2>1. Upload Data File (.csv or .xlsx)</h2>
+    <form method="post" action="{% url 'upload_file' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="data_file">Select Employee Data File:</label>
+            <input type="file" id="data_file" name="data_file"
+                    accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                    required>
+        </div>
+        <button type="submit" class="btn">Start Analysis</button>
+    </form>
+
+    <hr>
+
+    <h2>2. Analysis History</h2>
+    {% if results %}
+    <div class="analysis-history-grid">
+        {% for result in results %}
+        <div class="analysis-card">
+            <h3>{{ result.upload_filename }}</h3>
+            <p><strong>Date:</strong> {{ result.analysis_date|date:"Y-m-d H:i" }}</p>
+
+            <div class="report-links">
+                <div>
+                    <h4>Leavers Report:</h4>
+                    <a href="{% url 'download_file' result.id 'leavers' 'view' %}" class="btn">View</a>
+                    <a href="{% url 'download_file' result.id 'leavers' 'download' %}" class="btn secondary">Download</a>
+                </div>
+                <div>
+                    <h4>Full Report:</h4>
+                    <a href="{% url 'download_file' result.id 'full' 'view' %}" class="btn">View</a>
+                    <a href="{% url 'download_file' result.id 'full' 'download' %}" class="btn secondary">Download</a>
+                </div>
+            </div>
+            
+
+        </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p class="no-history">You have not run any analyses yet. Upload a file to get started.</p>
+{% endif %}
+
+</div>
+{% endblock %}
