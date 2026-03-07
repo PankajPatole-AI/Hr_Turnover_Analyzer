@@ -149,6 +149,7 @@ http://127.0.0.1:8000/
 *Prediction Result
 ![Prediction](prediction.png%20-%20Copy.png)
 
+
 Author
 Pankaj Patole
 AI & Data Science Enthusiast
