@@ -138,6 +138,12 @@ http://127.0.0.1:8000/
  Improve dashboard analytics
  Enhance user interface and user experience
 
+#Project Screenshots
+
+*Home Page
+
+![Home](screenshots/home.png)
+
 Author
 Pankaj Patole
 AI & Data Science Enthusiast
