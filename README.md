@@ -141,8 +141,13 @@ http://127.0.0.1:8000/
 #Project Screenshots
 
 *Home Page
+![Home](home.png.png)
 
-![Home](screenshots/home.png)
+*Dashboard
+![Dashboard](dashboard.png.png)
+
+*Prediction Result
+![Prediction](prediction.png%20-%20Copy.png)
 
 Author
 Pankaj Patole
