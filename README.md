@@ -1,5 +1,5 @@
 HR Employee Turnover Analyzer
-Project Overview
+#Project Overview
 
 The HR Employee Turnover Analyzer is a machine learning–based web application developed to predict employee attrition within an organization.
 
@@ -7,7 +7,7 @@ This system analyzes employee data and identifies patterns that may indicate whe
 
 This tool can help HR departments make data-driven decisions to reduce employee turnover.
 
-Key Features
+#Key Features
 *Predict employee turnover using machine learning models
 *Dashboard to visualize employee data
 *Cost analysis related to employee turnover
@@ -15,7 +15,7 @@ Key Features
 *User login and registration system
 *Data visualization for better insights
 
-Technologies Used
+#Technologies Used
 *Backend
  Python
  Django
@@ -37,7 +37,7 @@ Technologies Used
 *Database
  SQLite
 
-*Machine Learning Models
+#Machine Learning Models
 
 The project uses multiple machine learning models to predict employee turnover:
  Logistic Regression
@@ -53,7 +53,42 @@ The project uses multiple machine learning models to predict employee turnover:
 6.Employee turnover prediction
 The trained models are stored as .pkl files and loaded into the Django application.
 
-Project Structure
+#Model Performance
+The project uses an AutoML-based approach to evaluate multiple machine learning algorithms for predicting employee turnover.
+Three classification models were trained and compared to determine the best performing model.
+
+*Models Evaluated
+Logistic Regression
+Random Forest Classifier
+Histogram Gradient Boosting
+
+Tree-based ensemble models demonstrated superior performance compared to the baseline Logistic Regression model, as they are better at capturing non-linear relationships between employee satisfaction, workload, and attrition patterns.
+
+*Best Performing Model
+The automatically selected Production Model (typically Random Forest) achieved the following performance metrics:
+
+*Metric	Score
+Accuracy	> 90%
+Precision	> 0.95
+Recall	> 0.90
+
+These results indicate that the model performs reliably in identifying employees who are at risk of leaving the organization.
+
+#Dataset
+The dataset contains employee information used to predict turnover.
+Example features include:
+- Age
+- Department
+- Salary
+- Job Role
+- Years at Company
+- Job Satisfaction
+- Work-Life Balance
+
+Target Variable:
+- Turnover (Yes / No)
+
+#Project Structure
 turnover_project
 │
 ├── turnover_app
@@ -83,7 +118,7 @@ turnover_project
 │
 └── README.md
 
-*Installation Guide
+#Installation Guide
 1. Clone the repository
 git clone https://github.com/PankajPatole-AI/Hr_Turnover_Analyzer.git
 2. Navigate to the project directory
@@ -97,7 +132,7 @@ python manage.py runserver
 6. Open the project in browser
 http://127.0.0.1:8000/
 
-*Future Improvements
+#Future Improvements
  Deploy the project on cloud platforms (AWS / Render / Heroku)
  Add deep learning models for better prediction
  Improve dashboard analytics
